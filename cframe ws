@@ -1,0 +1,25 @@
+local dih = game:GetService("RunService")
+local meow = game:GetService("UserInputService")
+local you = game.Players.LocalPlayer
+
+dih.Heartbeat:Connect(function(dt)
+	local chr = you.Character
+	if not chr then return end
+	local hrp = chr:FindFirstChild("HumanoidRootPart")
+	if not hrp then return end
+
+	local mv = Vector3.zero
+	if meow:IsKeyDown(Enum.KeyCode.W) then mv += Vector3.new(0, 0, -1) end
+	if meow:IsKeyDown(Enum.KeyCode.S) then mv += Vector3.new(0, 0, 1) end
+	if meow:IsKeyDown(Enum.KeyCode.A) then mv += Vector3.new(-1, 0, 0) end
+	if meow:IsKeyDown(Enum.KeyCode.D) then mv += Vector3.new(1, 0, 0) end
+
+	if mv.Magnitude == 0 then return end
+
+	local cam = workspace.CurrentCamera
+	local r = Vector3.new(cam.CFrame.RightVector.X, 0, cam.CFrame.RightVector.Z).Unit
+	local f = Vector3.new(cam.CFrame.LookVector.X, 0, cam.CFrame.LookVector.Z).Unit
+	local dir = (r * mv.X + f * -mv.Z).Unit
+
+	hrp.CFrame = hrp.CFrame + dir * _G.ws * dt
+end)

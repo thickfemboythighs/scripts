@@ -3,6 +3,7 @@ local meow = game:GetService("UserInputService")
 local you = game.Players.LocalPlayer
 
 dih.Heartbeat:Connect(function(dt)
+	if _G.en ~= 1 then return end
 	local chr = you.Character
 	if not chr then return end
 	local hrp = chr:FindFirstChild("HumanoidRootPart")
